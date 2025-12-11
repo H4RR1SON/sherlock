@@ -1,10 +1,16 @@
+<div align="center">
+
 # Sherlock
+
+![Sherlock CLI Demo](docs/image.png)
 
 [![npm version](https://img.shields.io/npm/v/@covertlabs/sherlock.svg)](https://www.npmjs.com/package/@covertlabs/sherlock)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![OSINT](https://img.shields.io/badge/OSINT-Tool-blue.svg)](https://github.com/H4RR1SON/sherlock)
 [![Threat Intelligence](https://img.shields.io/badge/Threat-Intelligence-red.svg)](https://github.com/H4RR1SON/sherlock)
+
+</div>
 
 **A command-line tool for browsing infostealer logs and investigating compromised data.**
 
