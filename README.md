@@ -6,19 +6,19 @@
 [![OSINT](https://img.shields.io/badge/OSINT-Tool-blue.svg)](https://github.com/H4RR1SON/sherlock)
 [![Threat Intelligence](https://img.shields.io/badge/Threat-Intelligence-red.svg)](https://github.com/H4RR1SON/sherlock)
 
-**The command-line interface for threat intelligence professionals who don't have time for bullshit.**
+**A command-line tool for browsing infostealer logs and investigating compromised data.**
 
-Sherlock gives you instant access to stealer log datasets—credentials, cookies, browser history, system profiles—from your terminal. No clicking through dashboards. No waiting for exports. One command, real answers.
+Sherlock is a CLI tool that lets you search through infostealer log datasets directly from your terminal. Investigate emails, IP addresses, browser history, cookies, credentials, and system profiles. No dashboards. No exports. One command, instant results.
 
-Built by [Covertlabs](https://covertlabs.io) for incident responders, red teamers, and security researchers who need to move fast.
+Built by [Covertlabs](https://covertlabs.io) for security professionals who need to move fast.
 
 ## What You Get
 
-- **8 search vectors**: email, domain, IP, username, password, country, stealer family, free-text
-- **Deep victim profiling**: pull credentials, cookies, and browser history for any compromised machine
+- **Search infostealer logs**: query by email, domain, IP, username, password, country, stealer family, or free-text
+- **Investigate compromised machines**: pull credentials, cookies, browser history, and system profiles for any victim
 - **Multiple output formats**: tables for humans, JSON for scripts, CSV for spreadsheets
-- **Secure token auth**: OS keychain storage, revocable PATs, no passwords flying around
-- **Cursor-based pagination**: iterate through massive result sets without losing your place
+- **Secure authentication**: OS keychain storage, revocable tokens
+- **Efficient pagination**: iterate through massive result sets without losing your place
 
 ## Installation
 
@@ -44,18 +44,24 @@ sherlock auth login
 
 This opens a browser window. Sign in, grab your token, paste it back. Done.
 
-### 2. Search
+### 2. Search Infostealer Logs
 
-Find compromised accounts by domain:
+Search for compromised accounts by domain:
 
 ```bash
 sherlock search domain acme.com --limit 20
 ```
 
-Search by email:
+Investigate by email address:
 
 ```bash
 sherlock search email ceo@acme.com
+```
+
+Search by IP address:
+
+```bash
+sherlock search ip 203.0.113.50
 ```
 
 Hunt by stealer family:
@@ -64,33 +70,35 @@ Hunt by stealer family:
 sherlock search stealer redline --limit 50
 ```
 
-### 3. Go Deep
+### 3. Investigate Compromised Data
 
-Found something interesting? Pull the full victim profile:
+Found a victim? Pull their full profile from the infostealer logs:
 
 ```bash
 sherlock victim profile <victim_id> --include emails,domains
 ```
 
-Grab their stored credentials:
+Investigate their stored credentials:
 
 ```bash
 sherlock victim credentials <victim_id> --domain gmail.com
 ```
 
-Extract browser cookies:
+Extract their browser cookies:
 
 ```bash
 sherlock victim cookies <victim_id> --domain slack.com
 ```
 
-Review their browsing history:
+Review their browser history:
 
 ```bash
 sherlock victim history <victim_id> --search banking
 ```
 
-## Search Commands
+## Search Infostealer Logs
+
+Search through infostealer log datasets to find compromised victims:
 
 | Command | Description | Example |
 |---------|-------------|---------|
@@ -104,42 +112,44 @@ sherlock victim history <victim_id> --search banking
 | `search text` | Full-text search across all fields | `sherlock search text "vpn credentials"` |
 
 All search commands support:
-- `--limit <n>` — results per page (max 100)
-- `--format table|json|csv` — output format
-- `--cursor <cursor>` — pagination cursor for next page
+- `--limit <n>` - results per page (max 100)
+- `--format table|json|csv` - output format
+- `--cursor <cursor>` - pagination cursor for next page
 
-## Victim Commands
+## Investigate Compromised Data
+
+Once you've found a victim in the infostealer logs, investigate their compromised data:
 
 | Command | Description | Example |
 |---------|-------------|---------|
 | `victim profile` | Get victim metadata and summary | `sherlock victim profile <id>` |
-| `victim credentials` | List stored credentials | `sherlock victim credentials <id>` |
-| `victim cookies` | List browser cookies | `sherlock victim cookies <id>` |
-| `victim history` | List browser history | `sherlock victim history <id>` |
+| `victim credentials` | Investigate stored credentials | `sherlock victim credentials <id>` |
+| `victim cookies` | Extract browser cookies | `sherlock victim cookies <id>` |
+| `victim history` | Review browser history | `sherlock victim history <id>` |
 
 Victim commands support:
-- `--format table|json|csv` — output format
-- `--limit <n>` — results per page
-- `--offset <n>` — pagination offset
-- `--domain <domain>` — filter by domain (credentials/cookies)
-- `--search <term>` — filter history entries
-- `--include <fields>` — include extra fields in profile (emails, domains, usernames)
+- `--format table|json|csv` - output format
+- `--limit <n>` - results per page
+- `--offset <n>` - pagination offset
+- `--domain <domain>` - filter by domain (credentials/cookies)
+- `--search <term>` - filter history entries
+- `--include <fields>` - include extra fields in profile (emails, domains, usernames)
 
 ## Output Formats
 
-**Table** (default) — pretty-printed for terminal use:
+**Table** (default) - pretty-printed for terminal use:
 
 ```bash
 sherlock search domain acme.com
 ```
 
-**JSON** — pipe to `jq`, feed to scripts:
+**JSON** - pipe to `jq`, feed to scripts:
 
 ```bash
 sherlock search domain acme.com --format json | jq '.results[].victim_id'
 ```
 
-**CSV** — dump to spreadsheets:
+**CSV** - dump to spreadsheets:
 
 ```bash
 sherlock search domain acme.com --format csv > results.csv
@@ -170,22 +180,22 @@ sherlock auth status
 
 ## Documentation
 
-- [Getting Started](docs/getting-started.md) — zero to first query
-- [Authentication](docs/auth.md) — how tokens work, security considerations
-- [Command Reference](docs/commands.md) — every command, every flag
-- [Configuration](docs/configuration.md) — environment variables, output formats
-- [Security](docs/security.md) — token handling, storage, best practices
-- [Troubleshooting](docs/troubleshooting.md) — common errors and fixes
+- [Getting Started](docs/getting-started.md) - zero to first query
+- [Authentication](docs/auth.md) - how tokens work, security considerations
+- [Command Reference](docs/commands.md) - every command, every flag
+- [Configuration](docs/configuration.md) - environment variables, output formats
+- [Security](docs/security.md) - token handling, storage, best practices
+- [Troubleshooting](docs/troubleshooting.md) - common errors and fixes
 
 ## Use Cases
 
-**Incident Response**: Your organization got phished. Search by your domain to find which employees have compromised credentials in stealer logs. Pull their credentials to understand the blast radius.
+**Incident Response**: Your organization got phished. Search infostealer logs by your domain to find which employees have compromised credentials. Investigate their browser history, cookies, and stored passwords to understand the blast radius.
 
-**Red Team Operations**: Before an engagement, search for the target's domain. Existing credentials in stealer logs are often still valid—and they're not technically "hacking."
+**Red Team Operations**: Before an engagement, search infostealer logs for the target's domain. Existing credentials are often still valid. Pull IP addresses, browser history, and cookies to build your attack surface.
 
-**Threat Intelligence**: Track stealer families. Monitor specific countries. Build datasets for research.
+**Threat Intelligence**: Track stealer families across infostealer logs. Monitor specific countries or IP ranges. Investigate email addresses and domains to map threat actor infrastructure.
 
-**Credential Monitoring**: Integrate with your SIEM. Run scheduled searches. Alert when new compromises appear.
+**Credential Monitoring**: Integrate with your SIEM. Run scheduled searches across infostealer logs. Alert when new compromises appear for your domain or email addresses.
 
 ## Support
 
@@ -195,7 +205,7 @@ sherlock auth status
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT - see [LICENSE](LICENSE) for details.
 
 ---
 
