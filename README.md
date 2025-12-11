@@ -1,5 +1,11 @@
 # Sherlock
 
+[![npm version](https://img.shields.io/npm/v/@covertlabs/sherlock.svg)](https://www.npmjs.com/package/@covertlabs/sherlock)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![OSINT](https://img.shields.io/badge/OSINT-Tool-blue.svg)](https://github.com/H4RR1SON/sherlock)
+[![Threat Intelligence](https://img.shields.io/badge/Threat-Intelligence-red.svg)](https://github.com/H4RR1SON/sherlock)
+
 **The command-line interface for threat intelligence professionals who don't have time for bullshit.**
 
 Sherlock gives you instant access to stealer log datasets—credentials, cookies, browser history, system profiles—from your terminal. No clicking through dashboards. No waiting for exports. One command, real answers.
@@ -33,7 +39,7 @@ sherlock --help
 ### 1. Authenticate
 
 ```bash
-sherlock auth login --api-url https://api.covertlabs.io
+sherlock auth login
 ```
 
 This opens a browser window. Sign in, grab your token, paste it back. Done.
@@ -139,27 +145,9 @@ sherlock search domain acme.com --format json | jq '.results[].victim_id'
 sherlock search domain acme.com --format csv > results.csv
 ```
 
-## Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant CLI as Sherlock CLI
-    participant Browser
-    participant API as Covertlabs API
-
-    User->>CLI: sherlock auth login
-    CLI->>User: Opens browser URL
-    User->>Browser: Signs in via SSO
-    Browser->>User: Displays one-time token
-    User->>CLI: Pastes token
-    CLI->>CLI: Stores token in OS keychain
-    CLI->>API: All future requests use Bearer token
-```
+## Configuration
 
 Your token is stored in your OS keychain (macOS Keychain, Windows Credential Manager, or Linux Secret Service). If keychain access isn't available, it falls back to an encrypted local config file.
-
-## Configuration
 
 ### Environment Variables
 
