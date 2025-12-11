@@ -2,6 +2,8 @@
 
 # Sherlock
 
+**A command-line tool for browsing infostealer logs and investigating compromised data.**
+
 ![Sherlock CLI Demo](docs/image.png)
 
 [![npm version](https://img.shields.io/npm/v/@covertlabs/sherlock.svg)](https://www.npmjs.com/package/@covertlabs/sherlock)
