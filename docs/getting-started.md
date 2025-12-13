@@ -4,22 +4,23 @@ You're five minutes away from your first query. Let's go.
 
 ## Prerequisites
 
-- **Node.js 18+** — check with `node --version`
+- **macOS or Linux** (Windows supported via WSL)
+- **curl** and **tar**
 - **A Covertlabs account** — if you don't have one, talk to your account manager
 
 ## Step 1: Install Sherlock
 
 ```bash
-npm install -g @covertlabs/sherlock
+curl -fsSL https://covertlabs.io/install.sh | bash
 ```
 
 Confirm it's installed:
 
 ```bash
-sherlock --help
+command -v sherlock
 ```
 
-You should see the command list. If you get "command not found," your npm global bin directory isn't in your PATH. Fix that or use `npx @covertlabs/sherlock` instead.
+If you get "command not found," close and reopen your terminal. If it still fails, ensure `/usr/local/bin` (or `~/.local/bin`) is on your PATH.
 
 ## Step 2: Authenticate
 

@@ -6,9 +6,7 @@
 
 ![Sherlock CLI Demo](docs/image.png)
 
-[![npm version](https://img.shields.io/npm/v/@covertlabs/sherlock.svg)](https://www.npmjs.com/package/@covertlabs/sherlock)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![OSINT](https://img.shields.io/badge/OSINT-Tool-blue.svg)](https://github.com/H4RR1SON/sherlock)
 [![Threat Intelligence](https://img.shields.io/badge/Threat-Intelligence-red.svg)](https://github.com/H4RR1SON/sherlock)
 
@@ -30,10 +28,8 @@ Built by [Covertlabs](https://covertlabs.io) for security professionals who need
 
 ## Installation
 
-**Requirements**: Node.js 18+
-
 ```bash
-npm install -g @covertlabs/sherlock
+curl -fsSL https://covertlabs.io/install.sh | bash
 ```
 
 Verify it worked:
@@ -165,7 +161,7 @@ sherlock search domain acme.com --format csv > results.csv
 
 ## Configuration
 
-Your token is stored in your OS keychain (macOS Keychain, Windows Credential Manager, or Linux Secret Service). If keychain access isn't available, it falls back to an encrypted local config file.
+Your token is stored in your OS keychain (macOS Keychain, Windows Credential Manager, or Linux Secret Service). If keychain access isn't available, it falls back to a local config file (not encrypted).
 
 ### Environment Variables
 

@@ -151,73 +151,35 @@ sherlock search domain acme.com --limit 20
 
 ### "Command not found: sherlock"
 
-**Cause:** npm global bin directory not in PATH.
-
-**Fix (macOS/Linux):**
-```bash
-# Find where npm installs global packages
-npm config get prefix
-
-# Add to PATH (add to ~/.bashrc or ~/.zshrc)
-export PATH="$(npm config get prefix)/bin:$PATH"
-
-# Reload shell
-source ~/.bashrc  # or ~/.zshrc
-```
-
-**Fix (Windows):**
-```powershell
-# Check npm prefix
-npm config get prefix
-
-# Add to PATH via System Properties > Environment Variables
-```
-
-**Alternative:** Use npx
-```bash
-npx @covertlabs/sherlock search domain acme.com
-```
-
-### npm install fails
-
-**Cause:** Usually native module compilation (keytar).
-
-**Fix (macOS):**
-```bash
-# Install Xcode command line tools
-xcode-select --install
-npm install -g @covertlabs/sherlock
-```
-
-**Fix (Linux):**
-```bash
-# Install build tools
-sudo apt-get install build-essential libsecret-1-dev
-npm install -g @covertlabs/sherlock
-```
-
-**Fix (Windows):**
-```powershell
-# Install build tools
-npm install -g windows-build-tools
-npm install -g @covertlabs/sherlock
-```
-
-### Node version errors
-
-**Cause:** Node.js version too old.
+**Cause:** Your terminal session doesn't have the install location on PATH.
 
 **Fix:**
 ```bash
-# Check version
-node --version
-
-# Need 18+
-# Use nvm to upgrade
-nvm install 20
-nvm use 20
-npm install -g @covertlabs/sherlock
+command -v sherlock
 ```
+
+- If you installed via `https://covertlabs.io/install.sh`, `sherlock` is typically installed to `/usr/local/bin`.
+- If you didn’t have `sudo`, it may be installed to `~/.local/bin`.
+
+Add `~/.local/bin` to your PATH (if needed):
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+### Permission denied during install
+
+**Cause:** The installer tries to write to `/usr/local/bin` and you don’t have permission.
+
+**Fix:** Re-run the installer and approve `sudo`, or use the `~/.local/bin` fallback.
+
+### Checksum mismatch
+
+**Cause:** The downloaded archive didn't match the published SHA-256 checksum (proxy tampering, partial download, or a stale/mismatched release).
+
+**Fix:**
+- Re-run the installer.
+- Ensure your network/proxy allows clean HTTPS downloads.
+- If it persists, contact `security@covertlabs.io`.
 
 ## Output Issues
 

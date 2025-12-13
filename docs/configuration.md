@@ -12,7 +12,7 @@ The base URL for all API requests.
 export SHERLOCK_API_URL="https://api.covertlabs.io"
 ```
 
-**Default:** Stored value from `sherlock auth login`, or `http://localhost:8000`
+**Default:** Stored value from `sherlock auth login`, or `https://api.covertlabs.io`
 
 **When to use:**
 - CI/CD pipelines where you don't want to run `auth login`
@@ -62,6 +62,18 @@ export SHERLOCK_DEBUG="true"
 - Debugging API issues
 - Reporting bugs (include debug output in your report)
 
+### `SHERLOCK_JWT_TOKEN`
+
+Provide a token via environment variable (useful for automation and CI).
+
+```bash
+export SHERLOCK_JWT_TOKEN="your_token_here"
+```
+
+**Notes:**
+- This value is used for API authentication instead of any stored token.
+- Avoid placing tokens directly in shell history; prefer your CI/secret manager.
+
 ## Configuration File
 
 After running `sherlock auth login`, Sherlock stores your configuration locally:
@@ -76,7 +88,7 @@ After running `sherlock auth login`, Sherlock stores your configuration locally:
 - `api_url` — Your configured API URL
 
 **Not stored in config file:**
-- Tokens (stored in OS keychain when possible)
+- Tokens (stored in OS keychain when possible; if keychain is unavailable, the token may be stored in the config file fallback)
 
 You generally don't need to edit this file directly. Use `sherlock auth login` to update settings.
 
@@ -156,61 +168,13 @@ This means you can override any stored setting with an environment variable, and
 
 ## CI/CD Configuration
 
-For automated pipelines, you typically:
-
-### GitHub Actions
-
-```yaml
-jobs:
-  scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - run: npm install -g @covertlabs/sherlock
-      
-      - run: sherlock auth login --api-url https://api.covertlabs.io --token "${{ secrets.SHERLOCK_TOKEN }}"
-      
-      - run: sherlock search domain mycompany.com --format json > results.json
-```
-
-### GitLab CI
-
-```yaml
-scan:
-  image: node:20
-  script:
-    - npm install -g @covertlabs/sherlock
-    - sherlock auth login --api-url https://api.covertlabs.io --token "$SHERLOCK_TOKEN"
-    - sherlock search domain mycompany.com --format json > results.json
-  artifacts:
-    paths:
-      - results.json
-```
-
-### Environment-based (no login)
-
-If you prefer environment variables over `auth login`:
+In CI, prefer using a secret manager and environment variables:
 
 ```bash
+curl -fsSL https://covertlabs.io/install.sh | bash
 export SHERLOCK_API_URL="https://api.covertlabs.io"
-sherlock auth login --token "$SHERLOCK_TOKEN"
-sherlock search domain mycompany.com
-```
-
-## Docker
-
-```dockerfile
-FROM node:20-slim
-
-RUN npm install -g @covertlabs/sherlock
-
-ENV SHERLOCK_API_URL="https://api.covertlabs.io"
-
-# Token should be passed at runtime, not baked into image
-# docker run -e SHERLOCK_TOKEN=xxx myimage sherlock auth login --token "$SHERLOCK_TOKEN"
+export SHERLOCK_JWT_TOKEN="$SHERLOCK_TOKEN"
+sherlock search domain mycompany.com --format json > results.json
 ```
 
 ## Shell Aliases
